@@ -12,8 +12,8 @@ class LoginButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => context.go('/login'),
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.navTextActive,
-        foregroundColor: Colors.black,
+        backgroundColor: AppColors.accent,
+        foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),

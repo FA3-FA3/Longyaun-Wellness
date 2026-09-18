@@ -67,8 +67,8 @@ class HeroSection extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () => context.go('/learn-with-me'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.navTextActive,
-                        foregroundColor: Colors.black,
+                        backgroundColor: AppColors.accent,
+                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                       ),

@@ -40,4 +40,9 @@ class AppColors {
   // app theme, matching the nav bar and footer elsewhere on the site.
   static const Color aboutBackground = Color(0xFF1E1E1E);
   static const Color aboutText = Color(0xFFE6E6E6);
+
+  // Secondary brand accent (deep brick red) — used sparingly for small
+  // decorative touches (section accent bars, dividers) alongside the green
+  // used for interactive elements. Not a button/CTA colour.
+  static const Color accent = Color(0xFFA61C00);
 }

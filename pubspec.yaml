@@ -1,5 +1,5 @@
 name: longyuan_wellness
-description: "Longyuan Wellness — client-only Flutter web app, no backend."
+description: "Longyuan Wellness — Flutter web frontend backed by a Cloud Run API."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -38,6 +38,7 @@ dependencies:
   url_launcher: ^6.3.2
   firebase_core: ^4.14.0
   firebase_auth: ^6.6.1
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:

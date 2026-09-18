@@ -98,15 +98,15 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 16),
                   Text(
                     _errorMessage!,
-                    style: const TextStyle(color: Colors.redAccent, fontSize: 13),
+                    style: const TextStyle(color: AppColors.accent, fontSize: 13),
                   ),
                 ],
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: _loading ? null : _submit,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.navTextActive,
-                    foregroundColor: Colors.black,
+                    backgroundColor: AppColors.accent,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                   ),

@@ -85,7 +85,7 @@ class _NavTab extends StatelessWidget {
       child: Text(
         item.label,
         style: TextStyle(
-          color: isActive ? AppColors.navTextActive : AppColors.navText,
+          color: AppColors.navText,
           fontSize: 15,
           fontWeight: isActive ? FontWeight.w400 : FontWeight.w300,
         ),

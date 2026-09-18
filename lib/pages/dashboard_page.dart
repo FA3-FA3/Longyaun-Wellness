@@ -90,7 +90,7 @@ class _TopBar extends StatelessWidget {
             child: Text(
               'Log Out',
               style: TextStyle(
-                color: AppColors.navTextActive,
+                color: AppColors.accent,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),
