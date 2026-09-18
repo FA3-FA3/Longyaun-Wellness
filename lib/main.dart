@@ -1,9 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'firebase_options.dart';
 import 'router.dart';
 import 'utils/app_colors.dart';
 
-void main() {
+// Real Firebase Auth Emulator by default in debug builds; pass
+// --dart-define=USE_EMULATOR=false to point a debug build at real Firebase
+// (e.g. for the "live" local stack). Release builds always use real Firebase.
+const bool _useEmulator = bool.fromEnvironment('USE_EMULATOR', defaultValue: true);
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (kDebugMode && _useEmulator) {
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  }
   runApp(const LongyuanWellnessApp());
 }
 

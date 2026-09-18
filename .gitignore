@@ -43,3 +43,12 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Secrets — never commit connection strings or credentials
+.env
+.env.*
+cloud-run/.env
+
+# Cloud Run service (Node) and local dev-stack artifacts
+node_modules/
+scripts/.local/
