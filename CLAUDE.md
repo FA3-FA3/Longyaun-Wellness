@@ -6,7 +6,7 @@ When I ask you to do something, start implementing code changes immediately. Do 
 
 Longyuan Wellness is a Flutter web frontend backed by a Cloud Run API and a Postgres (Neon) database, with Firebase Auth for identity.
 
-- **Frontend:** `lib/` — Flutter (Dart) app, `go_router` navigation. Key files: `main.dart` (app entry, theming, Firebase init), `router.dart` (routes), `pages/` (screens), `widgets/` (reusable components), `utils/app_colors.dart` (theming), `utils/api_config.dart` (backend base URL, once added)
+- **Frontend:** `lib/` — Flutter (Dart) app, `go_router` navigation. Key files: `main.dart` (app entry, theming, Firebase init), `router.dart` (routes), `pages/` (screens), `widgets/` (reusable components), `utils/app_colors.dart` (theming), `utils/api_config.dart` (API_BASE_URL dart-define; localhost only in debug)
 - **Backend:** `cloud-run/` — Fastify (Node, ESM). `server.js` entry point; `src/config/` (Firebase Admin, Postgres pool), `src/middleware/auth.js` (`verifyAuth` + `ensureUserProfile`), `src/routes/`
 - **Database:** Postgres on Neon (no local Postgres instance — see `postgres/init/01-schema.sql` for schema). `.env.local` (repo root, gitignored) and `cloud-run/.env` (gitignored) hold the connection string
 
@@ -64,3 +64,9 @@ Use snake_case for database column names and API fields. Never write to the Neon
 - `integration_test/` — end-to-end, if/when added
 
 Run: `flutter test`
+
+Backend tests: `npm --prefix cloud-run test`. Deployment is documented in
+`docs/deployment.md`; use `scripts/deploy-api.ps1` and `scripts/deploy-web.ps1`.
+Production runs in project `longyuan-wellness`, region `europe-west2`, with
+project-specific runtime/build identities and Secret Manager credentials.
+`/whoami` returns `firebase_uid` and `email`; internal UUIDs stay server-side.

@@ -52,3 +52,5 @@ cloud-run/.env
 # Cloud Run service (Node) and local dev-stack artifacts
 node_modules/
 scripts/.local/
+.local/
+.firebase/

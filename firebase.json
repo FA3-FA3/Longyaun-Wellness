@@ -1,23 +1,58 @@
 {
-  "flutter": {
-    "platforms": {
-      "dart": {
-        "lib/firebase_options.dart": {
-          "projectId": "longyuan-wellness",
-          "configurations": {
-            "web": "1:878440911637:web:5362c6550eb79d4b698f1c"
-          }
-        }
-      }
-    }
-  },
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "ui": {
-      "enabled": true,
-      "port": 4000
-    }
-  }
+    "flutter":  {
+                    "platforms":  {
+                                      "dart":  {
+                                                   "lib/firebase_options.dart":  {
+                                                                                     "projectId":  "longyuan-wellness",
+                                                                                     "configurations":  {
+                                                                                                            "web":  "1:878440911637:web:5362c6550eb79d4b698f1c"
+                                                                                                        }
+                                                                                 }
+                                               }
+                                  }
+                },
+    "emulators":  {
+                      "auth":  {
+                                   "port":  9099
+                               },
+                      "ui":  {
+                                 "enabled":  true,
+                                 "port":  4000
+                             }
+                  },
+    "hosting":  {
+                    "ignore":  [
+                                   "firebase.json",
+                                   "**/.*",
+                                   "**/node_modules/**"
+                               ],
+                    "site":  "longyuan-wellness",
+                    "public":  "build/web",
+                    "headers":  [
+                                    {
+                                        "headers":  [
+                                                        {
+                                                            "key":  "Cache-Control",
+                                                            "value":  "no-cache"
+                                                        }
+                                                    ],
+                                        "source":  "/index.html"
+                                    },
+                                    {
+                                        "headers":  [
+                                                        {
+                                                            "key":  "Cache-Control",
+                                                            "value":  "no-cache"
+                                                        }
+                                                    ],
+                                        "source":  "/flutter_bootstrap.js"
+                                    }
+                                ],
+                    "rewrites":  [
+                                     {
+                                         "destination":  "/index.html",
+                                         "source":  "**"
+                                     }
+                                 ]
+                }
 }

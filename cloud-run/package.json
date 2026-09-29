@@ -4,15 +4,24 @@
   "private": true,
   "type": "module",
   "main": "server.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "overrides": {
+    "gaxios@6.7.1": {
+      "uuid": "^11.1.1"
+    }
+  },
   "scripts": {
     "dev": "node --watch server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
     "dotenv": "^16.4.5",
     "fastify": "^5.1.0",
-    "firebase-admin": "^13.0.1",
+    "firebase-admin": "^14.5.0",
     "pg": "^8.13.1",
     "resend": "^4.0.1"
   }

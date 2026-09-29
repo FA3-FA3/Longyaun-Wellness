@@ -1,15 +1,14 @@
-import admin from 'firebase-admin';
+import { applicationDefault, getApps, getApp, initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 
 // In Cloud Run, this picks up the service's runtime identity automatically
-// — no key file needed there. Locally, set GOOGLE_APPLICATION_CREDENTIALS
-// to a downloaded service account JSON (Firebase console → Project
-// Settings → Service Accounts → Generate new private key), or run
+// — no key file needed there. Locally, run
 // `gcloud auth application-default login` once.
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    projectId: process.env.FIREBASE_PROJECT_ID,
-  });
+if ((process.env.K_SERVICE || process.env.NODE_ENV === 'production') && process.env.FIREBASE_AUTH_EMULATOR_HOST) {
+  throw new Error('Auth Emulator is forbidden in production');
 }
-
-export { admin };
+export const firebaseApp = getApps().length ? getApp() : initializeApp({
+  credential: applicationDefault(),
+  projectId: process.env.FIREBASE_PROJECT_ID,
+});
+export const firebaseAuth = getAuth(firebaseApp);

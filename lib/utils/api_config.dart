@@ -1,7 +1,11 @@
-/// Cloud Run service base URL. Points at the local dev server for now —
-/// swap this to the deployed Cloud Run URL once that exists.
+import 'package:flutter/foundation.dart';
+
+/// Supply API_BASE_URL when building the deployed frontend.
 class ApiConfig {
   ApiConfig._();
 
-  static const String baseUrl = 'http://localhost:8080';
+  static const String baseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: kDebugMode ? 'http://localhost:8080' : '',
+  );
 }

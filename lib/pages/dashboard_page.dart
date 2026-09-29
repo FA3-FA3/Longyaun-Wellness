@@ -2,8 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import '../utils/app_colors.dart';
+import '../utils/api_config.dart';
 
 const List<String> _dashboardTabs = ['One', 'Two', 'Three', 'Four', 'Five'];
 
@@ -19,6 +22,43 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   int _selectedTab = 0;
+  bool _checkingApi = false;
+  String? _apiStatus;
+
+  Future<void> _checkApi() async {
+    if (_checkingApi) return;
+    setState(() => _checkingApi = true);
+    try {
+      final user = Firebase.apps.isEmpty
+          ? null
+          : FirebaseAuth.instance.currentUser;
+      final token = await user?.getIdToken();
+      if (user == null || token == null || ApiConfig.baseUrl.isEmpty) {
+        throw StateError('Sign-in or API configuration unavailable');
+      }
+      final response = await http
+          .get(
+            Uri.parse('${ApiConfig.baseUrl}/whoami'),
+            headers: {'Authorization': 'Bearer $token'},
+          )
+          .timeout(const Duration(seconds: 20));
+      if (response.statusCode != 200 ||
+          jsonDecode(response.body)['firebase_uid'] != user.uid) {
+        throw StateError('API check failed');
+      }
+      if (mounted) {
+        setState(() => _apiStatus = 'API connected. Your profile is ready.');
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => _apiStatus = 'Unable to connect to the API. Please try again.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _checkingApi = false);
+    }
+  }
 
   Future<void> _logOut() async {
     await FirebaseAuth.instance.signOut();
@@ -44,7 +84,21 @@ class _DashboardPageState extends State<DashboardPage> {
                   selectedIndex: _selectedTab,
                   onSelect: (index) => setState(() => _selectedTab = index),
                 ),
-                const Expanded(child: SizedBox.shrink()),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        OutlinedButton(
+                          onPressed: _checkingApi ? null : _checkApi,
+                          child: const Text('Check API connection'),
+                        ),
+                        if (_apiStatus != null) Text(_apiStatus!),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -82,7 +136,11 @@ class _TopBar extends StatelessWidget {
           if (email.isNotEmpty)
             Text(
               email,
-              style: TextStyle(color: AppColors.navText, fontSize: 13, fontWeight: FontWeight.w300),
+              style: TextStyle(
+                color: AppColors.navText,
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+              ),
             ),
           const SizedBox(width: 16),
           TextButton(
@@ -130,7 +188,11 @@ class _Sidebar extends StatelessWidget {
 }
 
 class _SidebarItem extends StatelessWidget {
-  const _SidebarItem({required this.label, required this.isSelected, required this.onTap});
+  const _SidebarItem({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   final String label;
   final bool isSelected;
@@ -142,7 +204,9 @@ class _SidebarItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-        color: isSelected ? AppColors.navTextActive.withValues(alpha: 0.15) : Colors.transparent,
+        color: isSelected
+            ? AppColors.navTextActive.withValues(alpha: 0.15)
+            : Colors.transparent,
         child: Text(
           label,
           style: TextStyle(
